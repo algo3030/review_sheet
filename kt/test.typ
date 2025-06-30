@@ -1,3 +1,5 @@
+#import "../template.typ" : *
+
 #set page(
   paper: "a4",
   header: align(
@@ -7,6 +9,8 @@
   numbering: "1",
   columns: 2,
 )
+
+#show: rvsheet.with()
 
 = 基礎編
 == 標準出力

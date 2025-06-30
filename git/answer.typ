@@ -1,3 +1,5 @@
+#import "../template.typ" : *
+
 #set page(
   paper: "a4",
   header: align(
@@ -7,38 +9,38 @@
   numbering: "1",
 )
 
-== 基本用語
+#show: rvsheet.with()
+
+= 基本用語
 + ブランチ/コミットを指すポインタ．現在の位置となる．
 + `HEAD`を移動させ，ローカルを移動後のコミットの状態にする．
   - Untracked filesに関しては削除もされず，何も起こらない．Tracked filesの追加や変更に関しては破棄されるが，警告が表示される．
   - 実質的に，`git switch`と`git restore --source=<コミット>`を組み合わせたような挙動となる．checkoutを行う前にコミットを行うか，stashしておくと良いだろう．
 + `HEAD`がブランチではなくコミットを直接指している状態．
   - この状態で新規コミットを行うと，どのブランチにも属さないコミットとなる．そのようなコミットは`git log`では表示されないため，コミットハッシュを持ってきたい場合は`git reflog`を利用すると良い．
-  - ちなみに通常の`HEAD`がブランチを指している状態はattached HEAD状態と呼ぶ．
+  - ちなみに通常の`HEAD`がブランチを指している状態はAttached HEAD状態と呼ぶ．
 + `git switch`
   - `checkout`コマンドの`HEAD`の移動の部分だけを取り出したような挙動となる．
 
-== 表示系
+= 表示系
 + `git diff`
 + `git diff --staged`
 + `git log <ブランチA>..<ブランチB>`
 + `git log --oneline`
++ `git reflog`
 
-== 復元・削除系
+= 復元・削除系
 + `git restore <path>`
 + `git restore --staged <path>`または`git reset HEAD <path>`
 + `git rm --cached <path>`
 + `git rm <path>`
-+ 現在のブランチと`HEAD`の位置をずらすコマンド．
-  - `checkout`はブランチを動かさないが，`reset`は一緒に動かす．なのでdetached HEAD状態にはならない．
-  - `reset`と言っても，*実態はブランチの移動*である．つまり，`HEAD -> main`から`HEAD -> feature`に`reset`することもできるわけで，その場合は未来旅行だ．
-+ コミットとファイル．
-  - それぞれで全く違う働きをする．`--soft`,`--mixed`,`--hard`はコミットに対して使うときだけ．
-  - ファイルに対して使いたいときは`git restore`を使うほうが明確だろう．
++ `HEAD`とブランチを指定したコミットへ動かす．
+  - `checkout`はブランチを動かさないが，`reset`は一緒に動かす．なのでdetached HEAD状態にはならない．つまりresetと言っても，実態はブランチの移動である．つまり，`HEAD -> main`から`HEAD -> feature`に`reset`することもできるわけで，その場合は未来旅行だ．
+  - `git reset`はファイルに対しても使えるが，その場合は`git restore`を使うほうが明確だろう．
 + `--soft`はインデックスとワーキングツリーを保持する．`--mixed`はインデックスを破棄し，ワーキングツリーを保持する．`--hard`はインデックスを破棄し，ワーキングツリーを指定したコミットと同じものにする．
   - ブランチの移動に際してインデックスとワーキングツリーをどうするかを指定するのが`soft,mixed,hard`だと考えれば良い．
 
-== ブランチ
+= ブランチ
 + `git branch <ブランチ名>`
 + `git switch -c <ブランチ名>`または`git checkout -b <ブランチ名>`
 + `git branch`
@@ -49,14 +51,14 @@
   - GitHub Pagesブランチとか，ドキュメント用ブランチを切るときなどに有効活用されてたり．
 + fast-forwardマージの場合，マージ先ブランチは一直線の履歴となり，マージコミットは作成されない．non-fast-forwardマージは，分岐した履歴をマージする際に新しくマージコミットが作られる．
   - 当然ながら，ffマージはマージ先ブランチがマージ元ブランチの親になっている場合しか使えない．
++ `--no-ff`
 + `git merge --abort`
 + `git rebase <コミット>`
   - これを使えば全部のマージをffにすることもできる．
 + `-i`
   - 例えば，Featureブランチで雑にコミットしていた履歴を整えつつ，mainブランチにrebaseするときなどに使える．
-  - 粒度高->低にするのはできるけど，逆は難しいのでやっぱりこまめにコミットしておこう．
 
-== リモートリポジトリ
+= リモートリポジトリ
 + `git remote add <名前> <URL>`
   - `git clone`した際のリモート名は，デフォルトで`origin`と付けられる．
 + `git remote set-url <名前> <URL>`
@@ -68,10 +70,9 @@
 + `git merge origin/main`または`git rebase origin/main`
 + `git pull`
 
-== その他
+= その他
 + `git stash`
   - いろいろできる．untracked filesにも使えて，一時的な退避領域として便利．
 + `git commit --amend`
 + `git cherry-pick <コミット>`
 + `git revert <コミット>`
-+ `git reflog`
