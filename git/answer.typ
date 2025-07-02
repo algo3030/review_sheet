@@ -31,6 +31,8 @@
 
 = 復元・削除系
 + `git restore <path>`
++ `git restore --source=<コミット> <path>`または`git checkout <コミット> -- <path>`
+ - `--`をつけることで、`HEAD`の移動を行わずにファイルだけ取り出すことができる．
 + `git restore --staged <path>`または`git reset HEAD <path>`
 + `git rm --cached <path>`
 + `git rm <path>`
