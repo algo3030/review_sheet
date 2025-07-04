@@ -25,8 +25,9 @@
 = 表示系
 + `git diff`
 + `git diff --staged`
-+ `git log <ブランチA>..<ブランチB>`
++ `git diff <コミットA> <コミットB>`
 + `git log --oneline`
++ `git log <ブランチA>..<ブランチB>`
 + `git reflog`
 
 = 復元・削除系
@@ -71,6 +72,10 @@
   - `git log origin/main..main`
 + `git merge origin/main`または`git rebase origin/main`
 + `git pull`
++ `git switch <originを除いたリモート追跡ブランチ名>` 
+または
+ `git checkout -b <ブランチ名> <リモート追跡ブランチ名>`
+ - これだけで勝手にupstreamの設定も行ったうえで，リモート追跡ブランチをローカルにコピーしてくれる．
 
 = その他
 + `git stash`
